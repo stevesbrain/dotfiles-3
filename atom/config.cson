@@ -1,0 +1,20 @@
+"*":
+  welcome:
+    showOnStartup: false
+  core:
+    disabledPackages: [
+      "wrap-guide"
+    ]
+    autoHideMenuBar: true
+    themes: [
+      "nucleus-dark-ui"
+      "one-dark-syntax"
+    ]
+  editor:
+    invisibles: {}
+    scrollPastEnd: true
+    softWrap: true
+    fontFamily: "Roboto Mono"
+    fontSize: 13
+  tabs:
+    usePreviewTabs: true

@@ -1,0 +1,7 @@
+[Added Associations]
+image/jpeg=feh.desktop;
+image/png=feh.desktop;
+text/plain=atom.desktop;
+application/pdf=zathura.desktop;
+application/x-shellscript=atom.desktop;
+application/xml=firefox.desktop;
