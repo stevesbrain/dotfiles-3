@@ -1,15 +1,15 @@
 #!/bin/sh
 
-padding=" "
+padding="    "
 
 color_background="#66000000"
 color_foreground="#FFFFFF"
-color_accent="#FFFFFF"
+color_accent="#2196F3"
 
 panel_height=32
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
-panel_icon_font="Material-Design-Iconic-Font:size=16"
+panel_icon_font="Material-Design-Iconic-Font:size=10"
 
 icon() {
     echo -n -e "\u$1"
@@ -27,9 +27,9 @@ workspaces() {
     focused=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].focused')
     urgent=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].urgent')
     if [ "$urgent" = "true" ]; then
-      wm_output="$wm_output%{F$color_foreground}%{B$color_background}${padding}${name}${padding}%{B-}%{F-}"
-    elif [ "$focused" = "true" ]; then
       wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}${padding}${name}${padding}%{-u}%{B-}%{F-}"
+    elif [ "$focused" = "true" ]; then
+      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_foreground}%{+u}${padding}${name}${padding}%{-u}%{B-}%{F-}"
     else
       wm_output="$wm_output%{F$color_foreground}%{B$color_background}${padding}${name}${padding}%{B-}%{F-}"
     fi
@@ -41,13 +41,18 @@ clock() {
   date '+%a, %d. %B - %H:%M'
 }
 
+cpu() {
+  LINE=`ps -eo pcpu |grep -vE '^\s*(0.0|%CPU)' |sed -n '1h;$!H;$g;s/\n/ +/gp'`
+  bc <<< $LINE
+}
+
 {
   while true; do
 
     buf=""
     buf="$buf %{l}%{T1}$(workspaces)"
     buf="$buf %{c}%{T2}$(clock)"
-    echo $buf
+    echo "$buf"
 
     sleep 0.5;
   done
@@ -56,6 +61,7 @@ clock() {
   -F "$color_foreground" \
   -B "$color_background" \
   -u 2 \
+  -o -2 \
   -f "$panel_font" \
   -f "$panel_font_bold" \
   -f "$panel_icon_font"
