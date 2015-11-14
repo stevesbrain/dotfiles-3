@@ -7,7 +7,7 @@
     ]
     autoHideMenuBar: true
     themes: [
-      "nucleus-dark-ui"
+      "atom-material-ui"
       "one-dark-syntax"
     ]
   editor:
@@ -18,3 +18,13 @@
     fontSize: 13
   tabs:
     usePreviewTabs: true
+  "atom-material-ui":
+    ui:
+      accentColor: "Blue"
+      slimScrollbar: true
+    fonts:
+      useRoboto: true
+      useRobotoInUI: true
+    treeView: {}
+    panels: {}
+  minimap: {}

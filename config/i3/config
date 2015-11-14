@@ -9,11 +9,13 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
 exec --no-startup-id feh --bg-fill /home/thilo/Dropbox/Bilder/Natur-Ubuntu-Makro-Löwenzahn-1200x1920.jpg
 exec --no-startup-id compton -cCGf --vsync opengl
 exec --no-startup-id redshift-gtk
 exec --no-startup-id dunst
 exec --no-startup-id unclutter
+exec --no-startup-id dropbox start
 
 # Mouse speed
 exec --no-startup-id xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000
@@ -171,19 +173,20 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        font pango:Roboto 9
-        colors {
-                separator #555555
-                background #282C34
-                statusline #DDDDDD
-                focused_workspace #FFFFFF #2ECC71 #000000
-                active_workspace #000000 #A4A28D #000000
-                inactive_workspace #A4A28D #000000 #DDDDDD
-                urgent_workspace #2ECC71 #900000 #FFFFFF
-        }
-        status_command i3status
-}
+# bar {
+#         font pango:Roboto 9
+#         position top
+#         colors {
+#                 separator #555555
+#                 background #282C34
+#                 statusline #DDDDDD
+#                 focused_workspace #FFFFFF #2ECC71 #000000
+#                 active_workspace #000000 #A4A28D #000000
+#                 inactive_workspace #A4A28D #000000 #DDDDDD
+#                 urgent_workspace #2ECC71 #900000 #FFFFFF
+#         }
+#         status_command i3status
+# }
 
 # Media Keys
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+ unmute
