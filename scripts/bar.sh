@@ -1,12 +1,19 @@
 #!/bin/sh
 
 padding=" "
-color_background="#33000000"
+
+color_background="#66000000"
 color_foreground="#FFFFFF"
 color_accent="#FFFFFF"
+
 panel_height=32
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
+panel_icon_font="Material-Design-Iconic-Font:size=16"
+
+icon() {
+    echo -n -e "\u$1"
+}
 
 # Workspace infos
 workspaces() {
@@ -31,7 +38,7 @@ workspaces() {
 }
 
 clock() {
-  date '+%a. %H:%M'
+  date '+%a, %d. %B - %H:%M'
 }
 
 {
@@ -46,8 +53,9 @@ clock() {
   done
 } | lemonbar \
   -g x"$panel_height" \
-  -f "$panel_font" \
-  -f "$panel_font_bold" \
   -F "$color_foreground" \
   -B "$color_background" \
-  -u 2
+  -u 2 \
+  -f "$panel_font" \
+  -f "$panel_font_bold" \
+  -f "$panel_icon_font"

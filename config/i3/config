@@ -10,7 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
-exec --no-startup-id feh --bg-fill /home/thilo/Dropbox/Bilder/Natur-Ubuntu-Makro-Löwenzahn-1200x1920.jpg
+exec --no-startup-id feh --bg-fill /home/thilo/Dropbox/Bilder/2.jpg
 exec --no-startup-id compton -cCGf --vsync opengl
 exec --no-startup-id redshift-gtk
 exec --no-startup-id dunst
