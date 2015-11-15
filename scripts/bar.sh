@@ -3,13 +3,14 @@
 padding="    "
 
 color_background="#66000000"
-color_foreground="#FFFFFF"
-color_accent="#2196F3"
+color_foreground="#FFFFFFFF"
+color_accent="#66FFFFFF"
 
 panel_height=32
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
-panel_icon_font="Material-Design-Iconic-Font:size=10"
+panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
+panel_icon_font_2="Material Design Icons:size=12"
 
 icon() {
     echo -n -e "\u$1"
@@ -52,9 +53,10 @@ cpu() {
     buf=""
     buf="$buf %{l}%{T1}$(workspaces)"
     buf="$buf %{c}%{T2}$(clock)"
-    echo "$buf"
+    buf="$buf %{T4}$(icon f1c4)"
+    echo -e "$buf"
 
-    sleep 0.5;
+    sleep 0.2;
   done
 } | lemonbar \
   -g x"$panel_height" \
@@ -64,4 +66,5 @@ cpu() {
   -o -2 \
   -f "$panel_font" \
   -f "$panel_font_bold" \
-  -f "$panel_icon_font" | zsh
+  -f "$panel_icon_font" \
+  -f "$panel_icon_font_2" | zsh

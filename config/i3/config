@@ -12,7 +12,7 @@
 exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
 exec --no-startup-id feh --bg-fill /home/thilo/Dropbox/Bilder/2.jpg
 exec --no-startup-id compton -cCGf --vsync opengl
-exec --no-startup-id redshift-gtk
+exec --no-startup-id redshift
 exec --no-startup-id dunst
 exec --no-startup-id unclutter
 exec --no-startup-id dropbox start
@@ -189,9 +189,9 @@ bindsym $mod+r mode "resize"
 # }
 
 # Media Keys
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 2dB+ unmute
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Disable border
 for_window [class="^.*"] border pixel 0
