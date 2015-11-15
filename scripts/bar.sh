@@ -1,13 +1,13 @@
 #!/bin/sh
 
-padding="    "
+padding="   "
 
 color_background="#66000000"
 color_foreground="#FFFFFFFF"
 color_accent="#66FFFFFF"
 
 panel_height=32
-panel_font="Roboto:size=10"
+panel_font="Roboto Condensed:size=10"
 panel_font_bold="Roboto Medium:size=10"
 panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
 panel_icon_font_2="Material Design Icons:size=12"
@@ -50,10 +50,27 @@ cpu() {
 redshift_control() {
   read redhift_status < redshift-status
   if [ $redhift_status = "1" ]; then
-    echo "%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}"
+    echo "${padding}%{T4}%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}${padding}"
   else
-    echo "%{A:pkill -USR1 redshift && echo 1 > redshift-status:}$(icon f1c5)%{A}"
+    echo "${padding}%{T4}%{A:pkill -USR1 redshift && echo 1 > redshift-status:}$(icon f1c5)%{A}${padding}"
   fi
+}
+
+volume() {
+  mute=$(pactl list sinks | grep "Mute: yes")
+  vol=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+  if [ -n "$mute" ]; then
+    volume_icon=$(icon f5ff)
+  elif [ $vol -ge 50 ]; then
+    volume_icon=$(icon f5fc)
+  elif [ $vol -ne 0 ]; then
+    volume_icon=$(icon f5fe)
+  else
+    volume_icon=$(icon f5fd)
+  fi
+
+  echo "${padding}%{T4}$volume_icon %{T1}$vol${padding}"
+
 }
 
 {
@@ -62,7 +79,8 @@ redshift_control() {
     buf=""
     buf="$buf %{l}%{T1}$(workspaces)"
     buf="$buf %{c}%{T2}$(clock)"
-    buf="$buf %{r}%{T4}$(redshift_control)"
+    buf="$buf %{r}$(volume)"
+    buf="$buf $(redshift_control)"
     echo -e "$buf"
 
     sleep 0.2;
@@ -72,7 +90,7 @@ redshift_control() {
   -F "$color_foreground" \
   -B "$color_background" \
   -u 2 \
-  -o -2 \
+  -o -1 \
   -f "$panel_font" \
   -f "$panel_font_bold" \
   -f "$panel_icon_font" \
