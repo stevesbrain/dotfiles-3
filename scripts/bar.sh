@@ -73,6 +73,12 @@ volume() {
 
 }
 
+
+load_avg() {
+    avgload=$(cut -d " " -f 1 /proc/loadavg)
+    echo "${padding}%{T4}$(icon f413) %{T1}$avgload${padding}"
+}
+
 {
   while true; do
 
@@ -80,6 +86,7 @@ volume() {
     buf="$buf %{l}%{T1}$(workspaces)"
     buf="$buf %{c}%{T2}$(clock)"
     buf="$buf %{r}$(volume)"
+    buf="$buf $(load_avg)"
     buf="$buf $(redshift_control)"
     echo -e "$buf"
 
