@@ -47,13 +47,22 @@ cpu() {
   bc <<< $LINE
 }
 
+redshift_control() {
+  read redhift_status < redshift-status
+  if [ $redhift_status = "1" ]; then
+    echo "%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}"
+  else
+    echo "%{A:pkill -USR1 redshift && echo 1 > redshift-status:}$(icon f1c5)%{A}"
+  fi
+}
+
 {
   while true; do
 
     buf=""
     buf="$buf %{l}%{T1}$(workspaces)"
     buf="$buf %{c}%{T2}$(clock)"
-    buf="$buf %{T4}$(icon f1c4)"
+    buf="$buf %{r}%{T4}$(redshift_control)"
     echo -e "$buf"
 
     sleep 0.2;
