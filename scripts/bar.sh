@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 padding="   "
 
@@ -12,12 +12,24 @@ panel_font_bold="Roboto Medium:size=10"
 panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
 panel_icon_font_2="Material Design Icons:size=12"
 
+PANEL_FIFO=/tmp/panel-fifo
+
+# check if panel is already running
+if [[ $(pgrep -cx lemonbar) -gt 1 ]]; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+# remove old panel fifo, creat new one
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
 icon() {
     echo -n -e "\u$1"
 }
 
 # Workspace infos
-workspaces() {
+while true; do
   wm_infos=$(i3-msg -t get_workspaces)
   workspaces=$(echo $wm_infos | jq '. | length')
   wm_output=""
@@ -35,28 +47,30 @@ workspaces() {
       wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
     fi
   done
-  echo "$wm_output"
-}
+  echo "W$wm_output"
+  sleep 0.1
+done > "$PANEL_FIFO" &
 
-clock() {
-  date '+%a, %d. %B - %H:%M'
-}
+# Clock
+while true; do
+  datetime=$(date '+%a, %d. %B - %H:%M')
+  echo "C$datetime"
+  sleep 1
+done > "$PANEL_FIFO" &
 
-cpu() {
-  LINE=`ps -eo pcpu |grep -vE '^\s*(0.0|%CPU)' |sed -n '1h;$!H;$g;s/\n/ +/gp'`
-  bc <<< $LINE
-}
-
-redshift_control() {
+# Redshift
+while true; do
   read redhift_status < redshift-status
   if [ $redhift_status = "1" ]; then
-    echo "${padding}%{T4}%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}${padding}"
+    echo "R${padding}%{T4}%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}${padding}"
   else
-    echo "${padding}%{T4}%{A:pkill -USR1 redshift && echo 1 > redshift-status:}$(icon f1c5)%{A}${padding}"
+    echo "R${padding}%{T4}%{A:pkill -USR1 redshift && echo 1 > redshift-status:}$(icon f1c5)%{A}${padding}"
   fi
-}
+  sleep 0.2
+done > "$PANEL_FIFO" &
 
-volume() {
+# Volume
+while true; do
   mute=$(pactl list sinks | grep "Mute: yes")
   vol=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
   if [ -n "$mute" ]; then
@@ -68,15 +82,16 @@ volume() {
   else
     volume_icon=$(icon f5fd)
   fi
+  echo "V${padding}%{T4}$volume_icon %{T1}$vol%${padding}"
+  sleep 0.2
+done > "$PANEL_FIFO" &
 
-  echo "${padding}%{T4}$volume_icon %{T1}$vol%${padding}"
-
-}
-
-load_avg() {
+# Load
+while true; do
   avgload=$(cut -d " " -f 1-3 /proc/loadavg)
-  echo "${padding}%{T4}$(icon f413) %{T1}$avgload${padding}"
-}
+  echo "L${padding}%{T4}$(icon f413) %{T1}$avgload${padding}"
+  sleep 1
+done > "$PANEL_FIFO" &
 
 # TODO: figure out how fifo works.
 # update_timer=0
@@ -94,20 +109,7 @@ load_avg() {
 #   fi
 # }
 
-{
-  while true; do
-
-    buf=""
-    buf="$buf %{l}%{T1}$(workspaces)"
-    buf="$buf %{c}%{T2}$(clock)"
-    buf="$buf %{r}$(volume)"
-    buf="$buf $(load_avg)"
-    buf="$buf $(redshift_control)"
-    echo -e "$buf"
-
-    sleep 0.2;
-  done
-} | lemonbar \
+./bar_parser.sh < "$PANEL_FIFO" | lemonbar \
   -g x"$panel_height" \
   -F "$color_foreground" \
   -B "$color_background" \
@@ -117,3 +119,5 @@ load_avg() {
   -f "$panel_font_bold" \
   -f "$panel_icon_font" \
   -f "$panel_icon_font_2" | zsh
+
+wait
