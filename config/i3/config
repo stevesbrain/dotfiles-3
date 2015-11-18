@@ -10,7 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
-exec --no-startup-id feh --bg-fill /home/thilo/Dropbox/Bilder/2.jpg
+exec --no-startup-id feh --bg-fill /home/thilo/Downloads/scottish-highlands-mountains-hd-wallpaper.jpg
 exec --no-startup-id compton -cCGf --vsync opengl
 exec --no-startup-id redshift && echo 1 > ~/dotfiles/scripts/redshift-status
 exec --no-startup-id dunst

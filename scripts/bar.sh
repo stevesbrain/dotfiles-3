@@ -2,11 +2,11 @@
 
 padding="   "
 
-color_background="#66000000"
+color_background="#33000000"
 color_foreground="#FFFFFFFF"
 color_accent="#66FFFFFF"
 
-panel_height=32
+panel_height=24
 panel_font="Roboto Condensed:size=10"
 panel_font_bold="Roboto Medium:size=10"
 panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
@@ -69,15 +69,30 @@ volume() {
     volume_icon=$(icon f5fd)
   fi
 
-  echo "${padding}%{T4}$volume_icon %{T1}$vol${padding}"
+  echo "${padding}%{T4}$volume_icon %{T1}$vol%${padding}"
 
 }
-
 
 load_avg() {
-    avgload=$(cut -d " " -f 1 /proc/loadavg)
-    echo "${padding}%{T4}$(icon f413) %{T1}$avgload${padding}"
+  avgload=$(cut -d " " -f 1-3 /proc/loadavg)
+  echo "${padding}%{T4}$(icon f413) %{T1}$avgload${padding}"
 }
+
+# TODO: figure out how fifo works.
+# update_timer=0
+# update_count=0
+# updates() {
+#   ((update_timer++))
+#   if [ $update_timer -gt 10 ]; then
+#     update_count=$(pacman -Qu | wc -l)
+#     update_timer=0
+#   fi
+#   if [ $update_count -ne 0 ]; then
+#     echo "${padding}%{T4}$(icon f482) %{T1}$update_count Updates${padding}"
+#   else
+#     echo -n "$update_timer"
+#   fi
+# }
 
 {
   while true; do
