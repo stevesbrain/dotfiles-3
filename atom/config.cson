@@ -20,8 +20,8 @@
     usePreviewTabs: true
   "atom-material-ui":
     ui:
-      accentColor: "Blue"
       slimScrollbar: true
+      accentColor: "Blue"
     fonts:
       useRoboto: true
       useRobotoInUI: true
