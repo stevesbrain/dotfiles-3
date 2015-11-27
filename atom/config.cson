@@ -8,7 +8,7 @@
     autoHideMenuBar: true
     themes: [
       "atom-material-ui"
-      "one-dark-syntax"
+      "visibone-syntax"
     ]
   editor:
     invisibles: {}
@@ -21,10 +21,14 @@
   "atom-material-ui":
     ui:
       slimScrollbar: true
-      accentColor: "Blue"
     fonts:
       useRoboto: true
       useRobotoInUI: true
     treeView: {}
     panels: {}
+    tabs: {}
   minimap: {}
+  "exception-reporting":
+    userId: "64c25895-e9be-7c02-152a-b62ac7dec781"
+  "base16-syntax":
+    scheme: "Tomorrow"

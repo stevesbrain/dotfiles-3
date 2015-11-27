@@ -9,13 +9,17 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+set $ws10 
+
+
 exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
-exec --no-startup-id feh --bg-fill /home/thilo/Downloads/scottish-highlands-mountains-hd-wallpaper.jpg
+exec --no-startup-id feh --bg-fill /home/thilo/Downloads/104206.jpg
 exec --no-startup-id compton -cCGf --vsync opengl
-exec --no-startup-id redshift && echo 1 > ~/dotfiles/scripts/redshift-status
+exec --no-startup-id redshift & echo 1 > ~/dotfiles/scripts/redshift-status
 exec --no-startup-id dunst
 exec --no-startup-id unclutter
 exec --no-startup-id dropbox start
+exec discord & sleep 3 && i3-msg '[title="Discord"]' move scratchpad
 
 # Mouse speed
 exec --no-startup-id xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000
@@ -42,7 +46,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -115,7 +119,7 @@ bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+0 workspace $ws10
 
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
@@ -130,7 +134,7 @@ bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -193,6 +197,13 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #i
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Screenshot
+bindsym Print exec --no-startup-id scrot -e 'mv $f ~/screenshots'
+
 # Disable border
 for_window [class="^.*"] border pixel 0
 
@@ -203,3 +214,8 @@ gaps outer 24
 # Mouse stuff
 focus_follows_mouse no
 mouse_warping none
+
+# Assignments
+
+assign [class="^streaming_client$"] $ws10
+for_window [class="^streaming_client$"] focus

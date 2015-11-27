@@ -2,18 +2,19 @@
 
 padding="   "
 
-color_background="#33000000"
+color_background="#00000000"
 color_foreground="#FFFFFFFF"
-color_accent="#66FFFFFF"
+color_accent="#4DB6AC"
 
-panel_height=24
+panel_height=28
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
 panel_font_condensed="Roboto Condensed:size=10"
-panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
+panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=11"
 panel_icon_font_2="Material Design Icons:size=12"
 
 panel_fifo=/tmp/panel-fifo
+bar_parser=~/dotfiles/scripts/bar_parser.sh
 
 # check if panel is already running
 if [[ $(pgrep -cx lemonbar) -gt 1 ]]; then
@@ -46,7 +47,7 @@ while true; do
     if [ "$urgent" = "true" ]; then
       wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
     elif [ "$focused" = "true" ]; then
-      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_foreground}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
+      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
     else
       wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
     fi
@@ -97,7 +98,7 @@ while true; do
   sleep 1
 done > "$panel_fifo" &
 
-# TODO: figure out how fifo works.
+# Update counter
 while true; do
   update_count=$(pacman -Qu | wc -l)
   if [ $update_count -ne 0 ]; then
@@ -108,7 +109,13 @@ while true; do
   sleep 900
 done > "$panel_fifo" &
 
-./bar_parser.sh < "$panel_fifo" | lemonbar \
+# Network
+while true; do
+	echo "N$(cat /sys/class/net/wlp0s29u1u5/statistics/rx_bytes)"
+	sleep 1
+done > "$panel_fifo" &
+
+"$bar_parser" < "$panel_fifo" | lemonbar \
   -g x"$panel_height" \
   -F "$color_foreground" \
   -B "$color_background" \
