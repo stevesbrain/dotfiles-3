@@ -21,6 +21,7 @@
   "atom-material-ui":
     ui:
       slimScrollbar: true
+      accentColor: "Green"
     fonts:
       useRoboto: true
       useRobotoInUI: true
@@ -32,3 +33,5 @@
     userId: "64c25895-e9be-7c02-152a-b62ac7dec781"
   "base16-syntax":
     scheme: "Tomorrow"
+  pigments:
+    markerType: "underline"

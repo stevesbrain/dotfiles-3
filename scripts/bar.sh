@@ -2,7 +2,7 @@
 
 padding="   "
 
-color_background="#00000000"
+color_background="#66000000"
 color_foreground="#FFFFFFFF"
 color_accent="#4DB6AC"
 
@@ -37,22 +37,30 @@ xprop -spy -root _NET_ACTIVE_WINDOW | sed -un 's/.*\(0x.*\)/A\1/p' > "${panel_fi
 while true; do
   wm_infos=$(i3-msg -t get_workspaces)
   workspaces=$(echo $wm_infos | jq '. | length')
-  wm_output=""
-
+  wm_first=""
+	wm_last=""
+	last_screen="0"
   for ((i=0; i < $workspaces; i++))
   do
     name=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].name')
     focused=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].focused')
     urgent=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].urgent')
+		output=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].output')
     if [ "$urgent" = "true" ]; then
-      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
+      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
     elif [ "$focused" = "true" ]; then
-      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
+      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_foreground}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
     else
-      wm_output="$wm_output%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
+      wm_text="%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
     fi
+		if [ "$output" = "HDMI1" ]; then
+      wm_first="$wm_first$wm_text"
+	    last_screen=1
+		else
+			wm_last="$wm_last$wm_text"
+	  fi
   done
-  echo "W$wm_output"
+  echo "W%{Sl}$wm_last%{Sf}$wm_first"
   sleep 0.1
 done > "$panel_fifo" &
 

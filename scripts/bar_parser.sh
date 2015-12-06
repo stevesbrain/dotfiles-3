@@ -35,6 +35,6 @@ while read -r line ; do
       ;;
   esac
 
-  echo -e "%{l}$wm_infos    $title%{c}$clock%{r}$updates$volume$network$load$redshift_status"
+  echo -e "%{l}$wm_infos    $title%{c}$clock%{r}$updates$volume$network$load$redshift_status  "
 
 done
