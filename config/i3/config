@@ -13,19 +13,20 @@ set $ws10 
 
 
 exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
-exec --no-startup-id feh --bg-center /home/thilo/Dropbox/Bilder/2.jpg
-exec --no-startup-id compton -cCGf --vsync opengl
+exec --no-startup-id compton -cCGf --vsync opengl --shadow-exclude '!focused'
 exec --no-startup-id redshift & echo 1 > ~/dotfiles/scripts/redshift-status
 exec --no-startup-id dunst
 exec --no-startup-id unclutter
 exec --no-startup-id dropbox start
 exec --no-startup-id xset s 3600 3600
-exec discord & sleep 3 && i3-msg '[title="Discord"]' move scratchpad
-exec --no-startup-id xrandr --output VGA1 --auto --scale 1.20x1.20 --output HDMI1 --auto --left-of VGA1
+exec discord & sleep 5 && i3-msg '[title="Discord"]' move scratchpad
+exec --no-startup-id xrandr --output VGA1 --auto --output HDMI1 --auto --left-of VGA1
+exec --no-startup-id feh --bg-fill /home/thilo/Downloads/Ocean-Blue-Ice-Big-1.jpg
+
+exec steam
 
 # Mouse speed
 exec --no-startup-id xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000
-
 
 set $mod Mod4
 
@@ -221,3 +222,8 @@ mouse_warping none
 
 assign [class="^streaming_client$"] $ws10
 for_window [class="^streaming_client$"] focus
+
+workspace 1 output HDMI1
+workspace $ws10 output HDMI1
+
+exec --no-startup-id i3-msg "workspace 1"

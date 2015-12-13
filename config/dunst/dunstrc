@@ -84,7 +84,7 @@
     idle_threshold = 120
 
     # Which monitor should the notifications be displayed on.
-    monitor = 0
+    monitor = 1
 
     # Display notification on focused monitor.  Possible modes are:
     #   mouse: follow mouse pointer
@@ -97,7 +97,7 @@
     #
     # If this option is set to mouse or keyboard, the monitor option
     # will be ignored.
-    follow = mouse
+    follow = none
 
     # Should a notification popped up from history be sticky or timeout
     # as if it would normally do.
@@ -182,13 +182,13 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#FFFFFF"
-    foreground = "#363636"
+    background = "#3A404B"
+    foreground = "#CCCCCC"
     timeout = 10
 
 [urgency_normal]
-    background = "#FFFFFF"
-    foreground = "#363636"
+    background = "#3A404B"
+    foreground = "#CCCCCC"
     timeout = 10
 
 [urgency_critical]

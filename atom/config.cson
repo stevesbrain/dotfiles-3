@@ -4,6 +4,7 @@
   core:
     disabledPackages: [
       "wrap-guide"
+      "spell-check"
     ]
     autoHideMenuBar: true
     themes: [
@@ -21,7 +22,7 @@
   "atom-material-ui":
     ui:
       slimScrollbar: true
-      accentColor: "Green"
+      accentColor: "Blue"
     fonts:
       useRoboto: true
       useRobotoInUI: true
@@ -35,3 +36,4 @@
     scheme: "Tomorrow"
   pigments:
     markerType: "underline"
+  "spell-check": {}
