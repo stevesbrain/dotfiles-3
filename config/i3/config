@@ -12,7 +12,7 @@
 set $ws10 
 
 
-exec --no-startup-id /home/thilo/dotfiles/scripts/bar.sh
+exec --no-startup-id /home/thilo/dotfiles/scripts/bar_i3.sh
 exec --no-startup-id compton -cCGf --vsync opengl --shadow-exclude '!focused'
 exec --no-startup-id redshift & echo 1 > ~/dotfiles/scripts/redshift-status
 exec --no-startup-id dunst

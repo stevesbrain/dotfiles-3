@@ -14,7 +14,7 @@ panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=11
 panel_icon_font_2="Material Design Icons:size=12"
 
 panel_fifo=/tmp/panel-fifo
-bar_parser=~/dotfiles/scripts/bar_parser.sh
+bar_parser=~/dotfiles/config/bspwm/bar_parser.sh
 
 # check if panel is already running
 if [[ $(pgrep -cx lemonbar) -gt 1 ]]; then
@@ -33,36 +33,11 @@ icon() {
 # Window Title
 xprop -spy -root _NET_ACTIVE_WINDOW | sed -un 's/.*\(0x.*\)/A\1/p' > "${panel_fifo}" &
 
-# Workspace infos
-while true; do
-  wm_infos=$(i3-msg -t get_workspaces)
-  workspaces=$(echo $wm_infos | jq '. | length')
-  wm_first=""
-	wm_last=""
-	last_screen="0"
-  for ((i=0; i < $workspaces; i++))
-  do
-    name=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].name')
-    focused=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].focused')
-    urgent=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].urgent')
-		output=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].output')
-    if [ "$urgent" = "true" ]; then
-      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
-    elif [ "$focused" = "true" ]; then
-      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_foreground}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
-    else
-      wm_text="%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
-    fi
-		if [ "$output" = "HDMI1" ]; then
-      wm_first="$wm_first$wm_text"
-	    last_screen=1
-		else
-			wm_last="$wm_last$wm_text"
-	  fi
-  done
-  echo "W%{Sl}$wm_last%{Sf}$wm_first"
-  sleep 0.1
-done > "$panel_fifo" &
+# set up bspwm to not overlap the panel
+bspc config top_padding "$panel_height"
+
+# get bspwms status feed
+bspc control --subscribe > "$panel_fifo" &
 
 # Clock
 while true; do
@@ -73,7 +48,7 @@ done > "$panel_fifo" &
 
 # Redshift
 while true; do
-  read redhift_status < redshift-status
+  read redhift_status < ~/redshift-status
   if [ $redhift_status = "1" ]; then
     echo "R${padding}%{T5}%{A:pkill -USR1 redshift && echo 0 > redshift-status:}$(icon f1c4)%{A}${padding}"
   else
@@ -124,6 +99,7 @@ while true; do
 done > "$panel_fifo" &
 
 "$bar_parser" < "$panel_fifo" | lemonbar \
+	-a 20 \
   -g x"$panel_height" \
   -F "$color_foreground" \
   -B "$color_background" \

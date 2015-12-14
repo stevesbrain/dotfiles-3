@@ -1,0 +1,702 @@
+BSPWM(1)                            Bspwm Manual                           BSPWM(1)
+
+NNAAMMEE
+       bspwm - Binary space partitioning window manager
+
+SSYYNNOOPPSSIISS
+       bbssppwwmm [--hh|--vv|--cc _C_O_N_F_I_G___P_A_T_H]
+
+       bbssppcc _C_O_M_M_A_N_D [_A_R_G_U_M_E_N_T_S]
+
+DDEESSCCRRIIPPTTIIOONN
+       bbssppwwmm is a tiling window manager that represents windows as the leaves of a
+       full binary tree.
+
+       It is controlled and configured via bbssppcc.
+
+OOPPTTIIOONNSS
+       --hh
+           Print the synopsis and exit.
+
+       --vv
+           Print the version and exit.
+
+       --cc _C_O_N_F_I_G___P_A_T_H
+           Use the given configuration file.
+
+CCOONNFFIIGGUURRAATTIIOONN
+       bbssppwwmm has only two sources of informations: the X events it receives and the
+       messages it reads on a dedicated socket.
+
+       The default configuration file is _$_X_D_G___C_O_N_F_I_G___H_O_M_E_/_b_s_p_w_m_/_b_s_p_w_m_r_c.
+
+       Keyboard and pointer bindings are defined with sxhkd.
+
+       Example configuration files can be found in the eexxaammpplleess directory.
+
+SSPPLLIITTTTIINNGG MMOODDEESS
+       New windows are inserted in the tree as close as possible to the focused
+       window.
+
+       There are only two splitting modes: _a_u_t_o_m_a_t_i_c and _m_a_n_u_a_l.
+
+       The default mode is _a_u_t_o_m_a_t_i_c. The _m_a_n_u_a_l mode is entered by sending a
+       pprreesseelleeccttiioonn message.
+
+       Example: insertion of a new node (number 4) into the given tree in _a_u_t_o_m_a_t_i_c
+       mode:
+
+                         b                                   c
+                        / \                                 / \
+                       3   a              -->              4   b
+                       ^  / \                              ^  / \
+                         2   1                               3   a
+                                                                / \
+                                                               2   1
+            +-------------------------+         +-------------------------+
+            |            |            |         |            |            |
+            |            |     2      |         |            |     3      |
+            |            |            |         |            |            |
+            |     3      |------------|   -->   |     4      |------------|
+            |     ^      |            |         |     ^      |     |      |
+            |            |     1      |         |            |  1  |  2   |
+            |            |            |         |            |     |      |
+            +-------------------------+         +-------------------------+
+
+       Same action, but the mode is _m_a_n_u_a_l, and a wwiinnddooww ----pprreesseell uupp message was
+       sent beforehand:
+
+                        b                                   b
+                       / \                                 / \
+                      3   a              -->              c   a
+                      ^  / \                             / \ / \
+                        2   1                           4  3 2  1
+                                                        ^
+           +-------------------------+         +-------------------------+
+           |            |            |         |            |            |
+           |            |     2      |         |     4      |     2      |
+           |            |            |         |     ^      |            |
+           |     3      |------------|   -->   |------------|------------|
+           |     ^      |            |         |            |            |
+           |            |     1      |         |     3      |     1      |
+           |            |            |         |            |            |
+           +-------------------------+         +-------------------------+
+
+CCOONNTTAAIINNEERRSS
+       Each monitor contains at least one desktop.
+
+       Each desktop contains at most one tree.
+
+CCOOMMMMOONN DDEEFFIINNIITTIIOONNSS
+           DIR         := left | right | up | down
+           CYCLE_DIR   := next | prev
+
+SSEELLEECCTTOORRSS
+       Selectors are used to select a target window, desktop, or monitor. A
+       selector can either describe the target relatively or name it globally.
+
+       Descriptive (relative) selectors consist of a primary selector and any
+       number of non-conflicting modifiers as follows:
+
+           PRIMARY_SELECTOR[.MODIFIER]*
+
+       For obvious reasons, neither desktop nor monitor names may be valid
+       descriptive selectors.
+
+   WWiinnddooww
+       Select a window.
+
+           WINDOW_SEL := <window_id>
+                       | (DIR|CYCLE_DIR|biggest|last|focused|older|newer)[.floating|.tiled][.like|.unlike][.manual|.automatic][.urgent][.local][.unfocused]
+
+       PPrriimmaarryy SSeelleeccttoorrss
+           _D_I_R
+               Selects the window in the given (spacial) direction relative to the
+               active window.
+
+           _C_Y_C_L_E___D_I_R
+               Selects the window in the given (cyclic) direction.
+
+           biggest
+               Selects the biggest window on the current desktop.
+
+           last
+               Selects the previously focused window.
+
+           focused
+               Selects the currently focused window.
+
+           older
+               Selects the window older than the focused window in the history.
+
+           newer
+               Selects the window newer than the focused window in the history.
+
+       MMooddiiffiieerrss
+           floating
+               Only consider floating windows.
+
+           tiled
+               Only consider tiled windows.
+
+           like
+               Only consider windows that have the same class as the current
+               window.
+
+           unlike
+               Only consider windows that have a different class than the current
+               window.
+
+           manual
+               Only consider windows in manual splitting mode.
+
+           automatic
+               Only consider windows in automatic splitting mode.
+
+           local
+               Only consider windows of the current desktop.
+
+           urgent
+               Only consider urgent windows.
+
+           unfocused
+               Only consider windows other than the focused window.
+
+   DDeesskkttoopp
+       Select a desktop.
+
+           DESKTOP_SEL := <desktop_name>
+                        | [MONITOR_SEL:]^<n>
+                        | (CYCLE_DIR|last|[MONITOR_SEL:]focused|older|newer)[.occupied|.free][.urgent][.local]
+
+       PPrriimmaarryy SSeelleeccttoorrss
+           <desktop_name>
+               Selects the desktop with the given name.
+
+           ^<n>
+               Selects the nth desktop.
+
+           _C_Y_C_L_E___D_I_R
+               Selects the desktop in the given direction relative to the active
+               desktop.
+
+           last
+               Selects the previously focused desktop.
+
+           focused
+               Selects the currently focused desktop.
+
+           older
+               Selects the desktop older than the focused desktop in the history.
+
+           newer
+               Selects the desktop newer than the focused desktop in the history.
+
+       MMooddiiffiieerrss
+           occupied
+               Only consider occupied desktops.
+
+           free
+               Only consider free desktops.
+
+           urgent
+               Only consider urgent desktops.
+
+           local
+               Only consider desktops of the current monitor.
+
+   MMoonniittoorr
+       Select a monitor.
+
+           MONITOR_SEL := <monitor_name>
+                        | ^<n>
+                        | (DIR|CYCLE_DIR|last|primary|focused|older|newer)[.occupied|.free]
+
+       PPrriimmaarryy SSeelleeccttoorrss
+           <monitor_name>
+               Selects the monitor with the given name.
+
+           ^<n>
+               Selects the nth monitor.
+
+           _D_I_R
+               Selects the monitor in the given (spacial) direction relative to the
+               active monitor.
+
+           _C_Y_C_L_E___D_I_R
+               Selects the monitor in the given (cyclic) direction relative to the
+               active monitor.
+
+           primary
+               Selects the primary monitor.
+
+           last
+               Selects the previously focused monitor.
+
+           focused
+               Selects the currently focused monitor.
+
+           older
+               Selects the monitor older than the focused monitor in the history.
+
+           newer
+               Selects the monitor newer than the focused monitor in the history.
+
+       MMooddiiffiieerrss
+           occupied
+               Only consider monitors where the focused desktop is occupied.
+
+           free
+               Only consider monitors where the focused desktop is free.
+
+WWIINNDDOOWW SSTTAATTEESS
+       floating
+           Is above any tiled window and can be moved/resized freely. Although it
+           doesn’t occupy any tiling space, it is still part of the window tree.
+
+       pseudo_tiled
+           Has an unrestricted size while being centered in its tiling space.
+
+       fullscreen
+           Fills its monitor rectangle, is above all the other windows and has no
+           borders.
+
+       locked
+           Ignores the cclloossee message.
+
+       sticky
+           Stays in the focused desktop of its monitor.
+
+       private
+           Tries to keep the same tiling position/size.
+
+CCOOMMMMAANNDDSS
+   WWiinnddooww
+       GGeenneerraall SSyynnttaaxx
+           window [_W_I_N_D_O_W___S_E_L] _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --ff, ----ffooccuuss [_W_I_N_D_O_W___S_E_L]
+               Focus the selected or given window.
+
+           --dd, ----ttoo--ddeesskkttoopp _D_E_S_K_T_O_P___S_E_L
+               Send the selected window to the given desktop.
+
+           --mm, ----ttoo--mmoonniittoorr _M_O_N_I_T_O_R___S_E_L
+               Send the selected window to the given monitor.
+
+           --ww, ----ttoo--wwiinnddooww _W_I_N_D_O_W___S_E_L
+               Transplant the selected window to the given window.
+
+           --ss, ----sswwaapp _W_I_N_D_O_W___S_E_L
+               Swap the selected window with the given window.
+
+           --pp, ----pprreesseell _D_I_R|cancel
+               Preselect the splitting area of the selected window (or cancel the
+               preselection).
+
+           --rr, ----rraattiioo _R_A_T_I_O
+               Set the splitting ratio of the selected window (0 < _R_A_T_I_O < 1).
+
+           --ee, ----eeddggee _D_I_R _R_A_T_I_O|±_P_I_X_E_L_S
+               Set or change the splitting ratio of the edge located in the given
+               direction in relation to the selected window.
+
+           --RR, ----rroottaattee _D_I_R _9_0_|_2_7_0_|_1_8_0
+               Rotate the tree holding the edge located in the given direction in
+               relation to the selected window.
+
+           --tt, ----ttooggggllee
+           floating|fullscreen|pseudo_tiled|locked|sticky|private[=on|off]
+               Set or toggle the given state for the selected window.
+
+           --cc, ----cclloossee
+               Close the selected window.
+
+           --kk, ----kkiillll
+               Kill the selected window.
+
+   DDeesskkttoopp
+       GGeenneerraall SSyynnttaaxx
+           desktop [_D_E_S_K_T_O_P___S_E_L] _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --ff, ----ffooccuuss [_D_E_S_K_T_O_P___S_E_L]
+               Focus the selected or given desktop.
+
+           --mm, ----ttoo--mmoonniittoorr _M_O_N_I_T_O_R___S_E_L
+               Send the selected desktop to the given monitor.
+
+           --ll, ----llaayyoouutt _C_Y_C_L_E___D_I_R|monocle|tiled
+               Set or cycle the layout of the selected desktop.
+
+           --nn, ----rreennaammee <new_name>
+               Rename the selected desktop.
+
+           --ss, ----sswwaapp _D_E_S_K_T_O_P___S_E_L
+               Swap the selected desktop with the given desktop.
+
+           --rr, ----rreemmoovvee
+               Remove the selected desktop.
+
+           --cc, ----ccaanncceell--pprreesseell
+               Cancel the preselection of all the windows of the selected desktop.
+
+           --FF, ----fflliipp _h_o_r_i_z_o_n_t_a_l_|_v_e_r_t_i_c_a_l
+               Flip the tree of the selected desktop.
+
+           --RR, ----rroottaattee _9_0_|_2_7_0_|_1_8_0
+               Rotate the tree of the selected desktop.
+
+           --EE, ----eeqquuaalliizzee
+               Reset the split ratios of the tree of the selected desktop.
+
+           --BB, ----bbaallaannccee
+               Adjust the split ratios of the tree of the selected desktop so that
+               all windows occupy the same area.
+
+           --CC, ----cciirrccuullaattee forward|backward
+               Circulate the leaves of the tree of the selected desktop.
+
+           --tt, ----ttooggggllee floating[=on|off]
+               Set or toggle the given state for the selected desktop.
+
+   MMoonniittoorr
+       GGeenneerraall SSyynnttaaxx
+           monitor [_M_O_N_I_T_O_R___S_E_L] _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --ff, ----ffooccuuss [_M_O_N_I_T_O_R___S_E_L]
+               Focus the selected or given monitor.
+
+           --aa, ----aadddd--ddeesskkttooppss <name>...
+               Create desktops with the given names in the selected monitor.
+
+           --rr, ----rreemmoovvee--ddeesskkttooppss <name>...
+               Remove desktops with the given names.
+
+           --oo, ----rreeoorrddeerr--ddeesskkttooppss <name>...
+               Reorder the desktops of the selected monitor to match the given
+               order.
+
+           --dd, ----rreesseett--ddeesskkttooppss <name>...
+               Rename, add or remove desktops depending on whether the number of
+               given names is equal, superior or inferior to the number of existing
+               desktops. Incidentally reset the settings of the existing desktops.
+
+           --nn, ----rreennaammee <new_name>
+               Rename the selected monitor.
+
+           --ss, ----sswwaapp _M_O_N_I_T_O_R___S_E_L
+               Swap the selected monitor with the given monitor.
+
+   QQuueerryy
+       GGeenneerraall SSyynnttaaxx
+           query _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --WW, ----wwiinnddoowwss
+               List matching windows.
+
+           --DD, ----ddeesskkttooppss
+               List matching desktops.
+
+           --MM, ----mmoonniittoorrss
+               List matching monitors.
+
+           --TT, ----ttrreeee
+               Print tree rooted at query.
+
+           --HH, ----hhiissttoorryy
+               Print the history as it relates to the query.
+
+           --SS, ----ssttaacckk
+               Print the window stacking order.
+
+           [--mm,----mmoonniittoorr [_M_O_N_I_T_O_R___S_E_L]] | [--dd,----ddeesskkttoopp [_D_E_S_K_T_O_P___S_E_L]] | [--ww,
+           ----wwiinnddooww [_W_I_N_D_O_W___S_E_L]]
+               Constrain matches to the selected monitor, desktop or window.
+
+   RReessttoorree
+       GGeenneerraall SSyynnttaaxx
+           restore _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --TT, ----ttrreeee <file_path>
+               Load the desktop trees from the given file.
+
+           --HH, ----hhiissttoorryy <file_path>
+               Load the focus history from the given file.
+
+           --SS, ----ssttaacckk <file_path>
+               Load the window stacking order from the given file.
+
+   CCoonnttrrooll
+       GGeenneerraall SSyynnttaaxx
+           control _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           ----aaddoopptt--oorrpphhaannss
+               Manage all the unmanaged windows remaining from a previous session.
+
+           ----ttooggggllee--vviissiibbiilliittyy
+               Toggle the visibility of all the windows.
+
+           ----rreeccoorrdd--hhiissttoorryy on|off
+               Enable or disable the recording of window focus history.
+
+           ----ssuubbssccrriibbee
+               Continuously print status information.
+
+           ----ggeett--ssttaattuuss
+               Print the current status information.
+
+   PPooiinntteerr
+       GGeenneerraall SSyynnttaaxx
+           pointer _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --gg, ----ggrraabb focus|move|resize_side|resize_corner
+               Initiate the given pointer action.
+
+           --tt, ----ttrraacckk <x> <y>
+               Pass the pointer root coordinates for the current pointer action.
+
+           --uu, ----uunnggrraabb
+               Terminate the current pointer action.
+
+   RRuullee
+       GGeenneerraall SSyynnttaaxx
+           rule _O_P_T_I_O_N_S
+
+       OOppttiioonnss
+           --aa, ----aadddd <class_name>|<instance_name>|* [--oo|----oonnee--sshhoott]
+           [monitor=MONITOR_SEL|desktop=DESKTOP_SEL|window=WINDOW_SEL]
+           [(floating|fullscreen|pseudo_tiled|locked|sticky|private|center|follow|manage|focus|border)=(on|off)]
+           [split_dir=DIR] [split_ratio=RATIO]
+               Create a new rule.
+
+           --rr, ----rreemmoovvee ^<n>|head|tail|<class_name>|<instance_name>|*...
+               Remove the given rules.
+
+           --ll, ----lliisstt [<class_name>|<instance_name>|*]
+               List the rules.
+
+   CCoonnffiigg
+       GGeenneerraall SSyynnttaaxx
+           config [-m _M_O_N_I_T_O_R___S_E_L|-d _D_E_S_K_T_O_P___S_E_L|-w _W_I_N_D_O_W___S_E_L] <key> [<value>]
+               Get or set the value of <key>.
+
+   QQuuiitt
+       GGeenneerraall SSyynnttaaxx
+           quit [<status>]
+               Quit with an optional exit status.
+
+EEXXIITT CCOODDEESS
+       If the server can’t handle a message, bbssppcc will return with one of the
+       following exit codes:
+
+       1
+           Failure.
+
+       2
+           Syntax error.
+
+       3
+           Unknown command.
+
+SSEETTTTIINNGGSS
+       Colors are either _#_R_R_G_G_B_B or X color names, booleans are _t_r_u_e, _o_n, _f_a_l_s_e or
+       _o_f_f.
+
+       All the boolean settings are _f_a_l_s_e by default unless stated otherwise.
+
+   GGlloobbaall SSeettttiinnggss
+       _f_o_c_u_s_e_d___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused window of a focused monitor.
+
+       _a_c_t_i_v_e___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused window of an unfocused monitor.
+
+       _n_o_r_m_a_l___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of an unfocused window.
+
+       _p_r_e_s_e_l___b_o_r_d_e_r___c_o_l_o_r
+           Color of the pprreesseell message feedback.
+
+       _f_o_c_u_s_e_d___l_o_c_k_e_d___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused locked window of a focused monitor.
+
+       _a_c_t_i_v_e___l_o_c_k_e_d___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused locked window of an unfocused monitor.
+
+       _n_o_r_m_a_l___l_o_c_k_e_d___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of an unfocused locked window.
+
+       _f_o_c_u_s_e_d___s_t_i_c_k_y___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused sticky window of a focused monitor.
+
+       _a_c_t_i_v_e___s_t_i_c_k_y___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused sticky window of an unfocused monitor.
+
+       _n_o_r_m_a_l___s_t_i_c_k_y___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of an unfocused sticky window.
+
+       _f_o_c_u_s_e_d___p_r_i_v_a_t_e___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused private window of a focused monitor.
+
+       _a_c_t_i_v_e___p_r_i_v_a_t_e___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of a focused private window of an unfocused monitor.
+
+       _n_o_r_m_a_l___p_r_i_v_a_t_e___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of an unfocused private window.
+
+       _u_r_g_e_n_t___b_o_r_d_e_r___c_o_l_o_r
+           Color of the border of an urgent window.
+
+       _s_p_l_i_t___r_a_t_i_o
+           Default split ratio.
+
+       _s_t_a_t_u_s___p_r_e_f_i_x
+           Prefix prepended to each of the status lines.
+
+       _e_x_t_e_r_n_a_l___r_u_l_e_s___c_o_m_m_a_n_d
+           External command used to retrieve rule consequences. The command will
+           receive the the ID of the window being processed as its first argument
+           and the class and instance names as second and third arguments. The
+           output of that command must have the following format: kkeeyy11==vvaalluuee11
+           kkeeyy22==vvaalluuee22 ......  (the valid key/value pairs are given in the description
+           of the _r_u_l_e command).
+
+       _i_n_i_t_i_a_l___p_o_l_a_r_i_t_y
+           On which child should a new window be attached when adding a window on a
+           single window tree in automatic mode. Accept the following values:
+           ffiirrsstt__cchhiilldd, sseeccoonndd__cchhiilldd.
+
+       _h_i_s_t_o_r_y___a_w_a_r_e___f_o_c_u_s
+           Give priority to the focus history when focusing nodes.
+
+       _f_o_c_u_s___b_y___d_i_s_t_a_n_c_e
+           Base focusing on distances between windows.
+
+       _b_o_r_d_e_r_l_e_s_s___m_o_n_o_c_l_e
+           Remove borders for tiled windows in monocle mode.
+
+       _g_a_p_l_e_s_s___m_o_n_o_c_l_e
+           Remove gaps for tiled windows in monocle mode.
+
+       _f_o_c_u_s___f_o_l_l_o_w_s___p_o_i_n_t_e_r
+           Focus the window under the pointer.
+
+       _p_o_i_n_t_e_r___f_o_l_l_o_w_s___f_o_c_u_s
+           When focusing a window, put the pointer at its center.
+
+       _p_o_i_n_t_e_r___f_o_l_l_o_w_s___m_o_n_i_t_o_r
+           When focusing a monitor, put the pointer at its center.
+
+       _a_u_t_o___a_l_t_e_r_n_a_t_e
+           Interpret two consecutive identical uussee messages as an aalltteerrnnaattee
+           message.
+
+       _a_u_t_o___c_a_n_c_e_l
+           Interpret two consecutive identical pprreesseell messages as a ccaanncceell message.
+
+       _a_p_p_l_y___f_l_o_a_t_i_n_g___a_t_o_m
+           Set the value of the ___B_S_P_W_M___F_L_O_A_T_I_N_G___W_I_N_D_O_W atom of each window
+           according to its floating state.
+
+       _i_g_n_o_r_e___e_w_m_h___f_o_c_u_s
+           Ignore EWMH focus requests coming from applications.
+
+       _c_e_n_t_e_r___p_s_e_u_d_o___t_i_l_e_d
+           Center pseudo tiled windows into their tiling rectangles. Defaults to
+           _t_r_u_e.
+
+       _r_e_m_o_v_e___d_i_s_a_b_l_e_d___m_o_n_i_t_o_r_s
+           Consider disabled monitors as disconnected.
+
+       _r_e_m_o_v_e___u_n_p_l_u_g_g_e_d___m_o_n_i_t_o_r_s
+           Remove unplugged monitors.
+
+       _m_e_r_g_e___o_v_e_r_l_a_p_p_i_n_g___m_o_n_i_t_o_r_s
+           Merge overlapping monitors (the bigger remains).
+
+   MMoonniittoorr aanndd DDeesskkttoopp SSeettttiinnggss
+       _t_o_p___p_a_d_d_i_n_g, _r_i_g_h_t___p_a_d_d_i_n_g, _b_o_t_t_o_m___p_a_d_d_i_n_g, _l_e_f_t___p_a_d_d_i_n_g
+           Padding space added at the sides of the monitor or desktop.
+
+   DDeeffaauulltt,, DDeesskkttoopp DDeeffaauulltt aanndd WWiinnddooww SSeettttiinnggss
+       _b_o_r_d_e_r___w_i_d_t_h
+           Window border width.
+
+   DDeeffaauulltt aanndd DDeesskkttoopp SSeettttiinnggss
+       _w_i_n_d_o_w___g_a_p
+           Size of the gap that separates windows.
+
+SSTTAATTUUSS FFOORRMMAATT
+       Status information is composed of items separated by colons.
+
+       Each item has the form _<_t_y_p_e_>_<_v_a_l_u_e_> where _<_t_y_p_e_> is the first character of
+       the item.
+
+       _M_<_m_o_n_i_t_o_r___n_a_m_e_>
+           Focused monitor.
+
+       _m_<_m_o_n_i_t_o_r___n_a_m_e_>
+           Unfocused monitor.
+
+       _O_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Occupied focused desktop.
+
+       _o_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Occupied unfocused desktop.
+
+       _F_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Free focused desktop.
+
+       _f_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Free unfocused desktop.
+
+       _U_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Urgent focused desktop.
+
+       _u_<_d_e_s_k_t_o_p___n_a_m_e_>
+           Urgent unfocused desktop.
+
+       _L_(_T_|_M_)
+           Layout of the focused desktop of a monitor.
+
+EENNVVIIRROONNMMEENNTT VVAARRIIAABBLLEESS
+       _B_S_P_W_M___S_O_C_K_E_T
+           The path of the socket used for the communication between bbssppcc and
+           bbssppwwmm. If it isn’t defined, then the following path is used:
+           _/_t_m_p_/_b_s_p_w_m_<_h_o_s_t___n_a_m_e_>___<_d_i_s_p_l_a_y___n_u_m_b_e_r_>___<_s_c_r_e_e_n___n_u_m_b_e_r_>_-_s_o_c_k_e_t.
+
+PPAANNEELLSS
+       ·   Any EWMH compliant panel (e.g.: _t_i_n_t_2, _b_m_p_a_n_e_l_2, etc.).
+
+       ·   A custom panel (have a look at the files in _e_x_a_m_p_l_e_s_/_p_a_n_e_l).
+
+KKEEYY FFEEAATTUURREESS
+       ·   Configured and controlled through messages.
+
+       ·   Multiple monitors support.
+
+       ·   EWMH support.
+
+       ·   Hybrid tiling.
+
+CCOONNTTRRIIBBUUTTOORRSS
+       ·   Steven Allen <steven at stebalien.com>
+
+       ·   Thomas Adam <thomas at xteddy.org>
+
+       ·   Ivan Kanakarakis <ivan.kanak at gmail.com>
+
+AAUUTTHHOORR
+       Bastien Dejean <nihilhill at gmail.com>
+
+MMAAIILLIINNGG LLIISSTT
+       bspwm at librelist.com
+
+Bspwm 0.9                            03/20/2015                            BSPWM(1)
