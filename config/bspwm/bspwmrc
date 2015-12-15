@@ -1,7 +1,11 @@
 #! /bin/sh
 
-bspc config border_width        0
+bspc config border_width        2
 bspc config window_gap         16
+
+bspc config normal_border_color "#2F343F"
+bspc config focused_border_color "#2F343F"
+bspc config active_border_color "#2F343F"
 
 bspc config split_ratio         0.62
 bspc config borderless_monocle  true
@@ -16,10 +20,20 @@ bspc rule -a Chromium desktop=^2
 bspc rule -a mplayer2 floating=on
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+bspc rule -a Steam desktop=^6 follow=no
+bspc rule -a streaming_client desktop=^5 focus=on
+bspc rule -a Discord desktop=^7
 
 # Autostart
 xrandr --output VGA1 --auto --output HDMI1 --auto --left-of VGA1 &
 xsetroot -cursor_name left_ptr &
+xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000 &
 feh --bg-fill /home/thilo/Downloads/Ocean-Blue-Ice-Big-1.jpg &
 ~/dotfiles/config/bspwm/bar.sh &
+~/dotfiles/config/bspwm/adjust_gaps.sh &
 compton -cCGf --vsync opengl --shadow-exclude '!focused' &
+redshift & echo 1 > ~/dotfiles/scripts/redshift-status &
+unclutter &
+dropbox start &
+discord &
+steam

@@ -1,6 +1,26 @@
-#! /bin/sh
+#! /bin/bash
 
 padding="    "
+
+taskicon() {
+  tree=$(bspc query -T --desktop $name)
+
+  if [[ $tree == *"Atom"* ]]; then
+    echo -e "%{T5}\uf246%{T1}"
+  elif [[ $tree == *"Steam"* ]]; then
+    echo -e "%{T4}\uf35e%{T1}"
+  elif [[ $tree == *"Discord"* ]]; then
+    echo -e "%{T5}\uf419%{T1}"
+  elif [[ $tree == *"0x3600001"* ]]; then
+    echo -e "%{T5}\uf38a%{T1}"
+  elif [[ $tree == *"Firefox"* ]]; then
+    echo -e "%{T5}\uf61c%{T1}"
+  elif [[ $tree == *"Gnome-terminal"* ]]; then
+    echo -e "%{T5}\uf25e%{T1}"
+  else
+    echo $name
+  fi
+}
 
 while read -r line ; do
 
@@ -26,7 +46,7 @@ while read -r line ; do
             ;;
           O*)
             # focused occupied desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding${name}$padding%{-u}%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding$(taskicon)$padding%{-u}%{A}"
             eval $wm_var=\$workspace_string
             ;;
           F*)
@@ -36,22 +56,22 @@ while read -r line ; do
             ;;
           U*)
             # focused urgent desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding${name}$padding%{-u}%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding$(taskicon)$padding%{-u}%{A}"
             eval $wm_var=\$workspace_string
             ;;
           o*)
             # occupied desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}$padding${name}$padding%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}$padding$(taskicon)$padding%{A}"
             eval $wm_var=\$workspace_string
             ;;
           f*)
             # free desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{F#99FFFFFF}$padding${name}$padding%{F-}%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{F#AAFFFFFF}$padding${name}$padding%{F-}%{A}"
             eval $wm_var=\$workspace_string
             ;;
           u*)
             # urgent desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}$padding${name}$padding%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}$padding$(taskicon)$padding%{A}"
             eval $wm_var=\$workspace_string
             ;;
         esac
@@ -78,13 +98,13 @@ while read -r line ; do
       allbytes="${line#?}"
       if [ $kilobytes -ge 1024 ]; then
         megabytes=$(echo "scale=2; ${kilobytes}/1024" | bc -l)
-        network="    %{T4}\uf2e8 %{T3}$megabytes Mb/s"
+        network="   %{T5}\uf3d0 %{T3}$megabytes Mb/s"
       else
-        network="    \uf2e8 $kilobytes Kb/s"
+        network="   %{T5}\uf3d0 %{T3}$kilobytes Kb/s"
       fi
       ;;
   esac
 
-  echo -e "$monitor_2$monitor_1    $title%{c}$clock%{r}$updates$volume$network$load$redshift_status  "
+  echo -e "$monitor_2$monitor_1    $title%{c}$clock%{r}$updates$volume$network  $load$redshift_status  "
 
 done

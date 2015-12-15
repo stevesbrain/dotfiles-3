@@ -2,7 +2,7 @@
 
 padding="   "
 
-color_background="#66000000"
+color_background="#882F343F"
 color_foreground="#FFFFFFFF"
 color_accent="#4DB6AC"
 
@@ -10,7 +10,7 @@ panel_height=28
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
 panel_font_condensed="Roboto Condensed:size=10"
-panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=11"
+panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
 panel_icon_font_2="Material Design Icons:size=12"
 
 panel_fifo=/tmp/panel-fifo
@@ -94,7 +94,7 @@ done > "$panel_fifo" &
 
 # Network
 while true; do
-	echo "N$(cat /sys/class/net/wlp0s29u1u5/statistics/rx_bytes)"
+	echo "N$(cat /sys/class/net/enp3s0/statistics/rx_bytes)"
 	sleep 1
 done > "$panel_fifo" &
 

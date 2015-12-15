@@ -88,7 +88,7 @@ super + shift + Return
 	firefox
 
 super + space
-	rofi -show run
+	j4-dmenu-desktop --dmenu="/usr/bin/rofi -dmenu -i -p ''"
 
 # Media
 XF86AudioRaiseVolume
@@ -105,6 +105,8 @@ XF86AudioNext
 XF86AudioPrev
  	playerctl previous
 
+Print
+	scrot -e 'mv $f ~/screenshots'
 
 # make sxhkd reload its configuration files:
 super + Escape
