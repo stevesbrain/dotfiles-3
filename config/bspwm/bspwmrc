@@ -15,20 +15,21 @@ bspc config focus_by_distance   true
 bspc monitor HDMI1 -d 1 2 3 4 5
 bspc monitor VGA1 -d 6 7 8 9 10
 
-bspc rule -a Gimp desktop=^8 follow=on floating=on
 bspc rule -a Chromium desktop=^2
 bspc rule -a mplayer2 floating=on
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
-bspc rule -a Steam desktop=^6 follow=no
-bspc rule -a streaming_client desktop=^5 focus=on
+bspc rule -a Steam desktop=^8 follow=no floating=on
+bspc rule -a streaming_client desktop=^5
 bspc rule -a Discord desktop=^7
+
+bspc config external_rules_command "/home/thilo/dotfiles/config/bspwm/external_rules.sh"
 
 # Autostart
 xrandr --output VGA1 --auto --output HDMI1 --auto --left-of VGA1 &
 xsetroot -cursor_name left_ptr &
 xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000 &
-feh --bg-fill /home/thilo/Downloads/Ocean-Blue-Ice-Big-1.jpg &
+feh --bg-fill /home/thilo/Downloads/google-earth-view-1400.jpg &
 ~/dotfiles/config/bspwm/bar.sh &
 ~/dotfiles/config/bspwm/adjust_gaps.sh &
 compton -cCGf --vsync opengl --shadow-exclude '!focused' &

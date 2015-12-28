@@ -5,21 +5,29 @@ padding="    "
 taskicon() {
   tree=$(bspc query -T --desktop $name)
 
-  if [[ $tree == *"Atom"* ]]; then
-    echo -e "%{T5}\uf246%{T1}"
-  elif [[ $tree == *"Steam"* ]]; then
-    echo -e "%{T4}\uf35e%{T1}"
-  elif [[ $tree == *"Discord"* ]]; then
-    echo -e "%{T5}\uf419%{T1}"
-  elif [[ $tree == *"0x3600001"* ]]; then
-    echo -e "%{T5}\uf38a%{T1}"
-  elif [[ $tree == *"Firefox"* ]]; then
-    echo -e "%{T5}\uf61c%{T1}"
-  elif [[ $tree == *"Gnome-terminal"* ]]; then
-    echo -e "%{T5}\uf25e%{T1}"
-  else
-    echo $name
-  fi
+  case $tree in
+    *"streaming_client"*)
+      echo -e "%{T5}\uf35e%{T1}"
+      ;;
+    *"Atom"*)
+      echo -e "%{T5}\uf246%{T1}"
+      ;;
+    *"Steam"*)
+      echo -e "%{T4}\uf35e%{T1}"
+      ;;
+    *"Discord"*)
+      echo -e "%{T5}\uf419%{T1}"
+      ;;
+    *"Firefox"*)
+      echo -e "%{T5}\uf61c%{T1}"
+      ;;
+    *"Gnome-terminal"*)
+      echo -e "%{T5}\uf25e%{T1}"
+      ;;
+    *)
+      echo "$name"
+      ;;
+  esac
 }
 
 while read -r line ; do

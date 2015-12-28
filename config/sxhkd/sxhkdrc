@@ -34,8 +34,11 @@ super + y
 super + m
 	bspc window -s biggest
 
-super + {_,shift + }{Left,Down,Up,Right}
-	bspc window -{f,s} {left,down,up,right}
+super + shift + {Left,Down,Up,Right}
+	bspc window -s {left,down,up,right} || bspc window -m last
+
+super + {Left,Down,Up,Right}
+	bspc window -f {left,down,up,right} || bspc monitor -f last
 
 super + {_,shift + }c
 	bspc window -f {next,prev}
@@ -48,7 +51,7 @@ super + ctrl + {comma,period}
 
 
 super + {_,shift + }Tab
-	bspc desktop -f {next,prev}
+	bspc desktop -f {next,prev}.occupied
 
 super + ctrl + {Left,Down,Up,Right}
 	bspc window -p {left,down,up,right}

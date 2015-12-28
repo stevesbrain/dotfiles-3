@@ -15,7 +15,7 @@
     invisibles: {}
     scrollPastEnd: true
     softWrap: true
-    fontFamily: "Roboto Mono"
+    fontFamily: "Roboto Mono Medium"
     fontSize: 13
   tabs:
     usePreviewTabs: true
@@ -24,7 +24,6 @@
       slimScrollbar: true
       accentColor: "Blue"
     fonts:
-      useRoboto: true
       useRobotoInUI: true
     treeView: {}
     panels: {}

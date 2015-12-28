@@ -1,5 +1,5 @@
 [Added Associations]
-image/jpeg=gpicview.desktop;feh.desktop;
+image/jpeg=gimp.desktop;gpicview.desktop;feh.desktop;
 image/png=gpicview.desktop;feh.desktop;
 text/plain=atom.desktop;
 application/pdf=zathura.desktop;
