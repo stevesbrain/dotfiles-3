@@ -2,6 +2,10 @@
 
 padding="    "
 
+spaceicon() {
+  echo -e "\uf$(echo "obase=16;ibase=16;452+$1*3+$2" | bc)"
+}
+
 taskicon() {
   tree=$(bspc query -T --desktop $name)
 
@@ -25,7 +29,7 @@ taskicon() {
       echo -e "%{T5}\uf25e%{T1}"
       ;;
     *)
-      echo "$name"
+      echo "$(spaceicon $name 0)"
       ;;
   esac
 }
@@ -59,7 +63,7 @@ while read -r line ; do
             ;;
           F*)
             # focused free desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding${name}$padding%{-u}%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{U#FFFFFF}%{+u}$padding$(spaceicon $name 2)$padding%{-u}%{A}"
             eval $wm_var=\$workspace_string
             ;;
           U*)
@@ -74,7 +78,7 @@ while read -r line ; do
             ;;
           f*)
             # free desktop
-            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{F#AAFFFFFF}$padding${name}$padding%{F-}%{A}"
+            workspace_string="${!wm_var}%{A:bspc desktop -f ${name}:}%{F#AAFFFFFF}$padding$(spaceicon $name 2)$padding%{F-}%{A}"
             eval $wm_var=\$workspace_string
             ;;
           u*)
