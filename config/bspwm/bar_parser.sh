@@ -34,7 +34,7 @@ while read -r line ; do
 
   case $line in
     A* )
-      title=$(xprop -id ${line#?} | awk '/_NET_WM_NAME/{$1=$2="";print}' | cut -d'"' -f2)
+      title=$(xprop -id ${line#?} | awk '/_NET_WM_NAME/{$1=$2="";print}' | cut -d'"' -f2 | awk -v len=100 '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')
       ;;
     W* )
       # bspwm internal state

@@ -252,7 +252,7 @@
 # vim: ft=cfg
 
 [Discord]
-  appname = Discord
+  appname = Electron
   new_icon = /usr/share/icons/Paper/32x32/apps/internet-chat.png
 
 [Spotify]

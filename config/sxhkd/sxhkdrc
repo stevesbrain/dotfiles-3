@@ -111,6 +111,9 @@ XF86AudioPrev
 Print
 	scrot -e 'mv $f ~/screenshots'
 
-# make sxhkd reload its configuration files:
 super + Escape
+	sleep 0.5 && xset dpms force off
+
+# make sxhkd reload its configuration files:
+super + shift + Escape
 	pkill -USR1 -x sxhkd

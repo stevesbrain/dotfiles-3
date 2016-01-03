@@ -16,11 +16,18 @@ autoload -Uz promptinit
 promptinit
 prompt pure
 
-# set an ad-hoc GUI timer
+# set an ad-hoc timer
 timer() {
   local N=$1; shift
 
-  (sleep $N && notify-send -i /usr/share/icons/Paper/32x32/apps/preferences-system-time.png "Timer" "$@" && beep -l 50 -r 4 ) &
+  (sleep $N && notify-send -u critical -i /usr/share/icons/Paper/32x32/apps/preferences-system-time.png "Wecker" "$@" && beep -l 50 -r 4 ) &
+  echo "alarm set for $N"
+}
+
+alarm() {
+  local N=$1; shift
+
+  (sleep $(( $(date --date="$N" +%s) - $(date +%s) )) && notify-send -u critical -i /usr/share/icons/Paper/32x32/apps/preferences-system-time.png "Timer" "$@" && beep -l 50 -r 4 ) &
   echo "timer set for $N"
 }
 
