@@ -34,7 +34,7 @@ icon() {
 xprop -spy -root _NET_ACTIVE_WINDOW | sed -un 's/.*\(0x.*\)/A\1/p' > "${panel_fifo}" &
 
 # set up bspwm to not overlap the panel
-bspc config top_padding "$panel_height"
+bspc config bottom_padding "$panel_height"
 
 # get bspwms status feed
 bspc control --subscribe > "$panel_fifo" &
@@ -100,6 +100,7 @@ done > "$panel_fifo" &
 
 "$bar_parser" < "$panel_fifo" | lemonbar \
 	-a 20 \
+	-b \
   -g x"$panel_height" \
   -F "$color_foreground" \
   -B "$color_background" \
