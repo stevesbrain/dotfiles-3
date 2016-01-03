@@ -106,13 +106,13 @@ while read -r line ; do
       allbytes="${line#?}"
       if [ $kilobytes -ge 1024 ]; then
         megabytes=$(echo "scale=2; ${kilobytes}/1024" | bc -l)
-        network="   %{T5}\uf3d0 %{T3}$megabytes Mb/s"
+        network="   %{T5}\uf3d0   "
       else
-        network="   %{T5}\uf3d0 %{T3}$kilobytes Kb/s"
+        network="   %{T5}\uf3d0   "
       fi
       ;;
   esac
 
-  echo -e "%{c}$monitor_1$monitor_2%{r}$updates$volume$network  $load$redshift_status    $clock      "
+  echo -e "%{c}$monitor_1$monitor_2%{r}  $clock   $updates$volume$network$redshift_status   "
 
 done

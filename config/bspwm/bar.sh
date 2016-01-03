@@ -2,7 +2,7 @@
 
 padding="   "
 
-color_background="#882F343F"
+color_background="#002F343F"
 color_foreground="#FFFFFFFF"
 color_accent="#4DB6AC"
 
@@ -41,7 +41,7 @@ bspc control --subscribe > "$panel_fifo" &
 
 # Clock
 while true; do
-  datetime=$(date '+%a, %d. %B - %H:%M')
+  datetime=$(date '+%H:%M')
   echo "C%{T2}$datetime"
   sleep 1
 done > "$panel_fifo" &
@@ -70,7 +70,7 @@ while true; do
   else
     volume_icon=$(icon f5fd)
   fi
-  echo "V${padding}%{T5}$volume_icon %{T3}$vol%${padding}"
+  echo "V${padding}%{T5}$volume_icon${padding}"
   sleep 0.2
 done > "$panel_fifo" &
 
@@ -85,7 +85,7 @@ done > "$panel_fifo" &
 while true; do
   update_count=$(pacman -Qu | wc -l)
   if [ $update_count -ne 0 ]; then
-    echo "U${padding}%{T5}$(icon f482) %{T3}$update_count Updates${padding}"
+    echo "U${padding}%{T5}$(icon f482)${padding}"
   else
     echo "U"
   fi
