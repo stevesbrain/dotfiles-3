@@ -6,7 +6,7 @@ color_background="#002F343F"
 color_foreground="#FFFFFFFF"
 color_accent="#4DB6AC"
 
-panel_height=28
+panel_height=32
 panel_font="Roboto:size=10"
 panel_font_bold="Roboto Medium:size=10"
 panel_font_condensed="Roboto Condensed:size=10"
