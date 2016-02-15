@@ -1,8 +1,0 @@
-[Added Associations]
-image/jpeg=gpicview.desktop;gimp.desktop;feh.desktop;
-image/png=gpicview.desktop;feh.desktop;
-text/plain=atom.desktop;
-application/pdf=zathura.desktop;
-application/x-shellscript=atom.desktop;
-application/xml=firefox.desktop;
-image/gif=firefox.desktop;feh.desktop;gimp.desktop;

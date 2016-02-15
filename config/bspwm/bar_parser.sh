@@ -117,6 +117,6 @@ while read -r line ; do
       ;;
   esac
 
-  echo -e "%{c}$monitor_1$monitor_2%{r}  $clock   $updates$volume$network$redshift_status   "
+  echo -e "%{c}$monitor_1$monitor_2%{r}  $clock   "
 
 done

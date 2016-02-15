@@ -1,6 +1,6 @@
 #! /bin/sh
 
-bspc config border_width        2
+bspc config border_width        0
 bspc config window_gap         16
 
 bspc config normal_border_color "#2F343F"
@@ -16,6 +16,7 @@ bspc monitor HDMI1 -d 1 2 3 4 5
 bspc monitor VGA1 -d 6 7 8 9 0
 
 bspc rule -a Chromium desktop=^2
+bspc rule -a conky manage=off
 bspc rule -a mplayer2 floating=on
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
@@ -27,15 +28,19 @@ bspc config external_rules_command "/home/thilo/dotfiles/config/bspwm/external_r
 
 # Autostart
 xrandr --output VGA1 --auto --output HDMI1 --auto --left-of VGA1 &
+feh --bg-tile "/home/thilo/Bilder/Wallpapers/19201200-1.jpg" &
 xset s off &
 xsetroot -cursor_name left_ptr &
 xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000 &
-feh --bg-fill /home/thilo/Downloads/409982.jpg &
-~/dotfiles/config/bspwm/bar.sh &
+~/dotfiles/config/bspwm/taskbar.sh &
+bspc control --subscribe| while read; do bash ~/dotfiles/config/bspwm/titlebars.sh ; done &
 ~/dotfiles/config/bspwm/adjust_gaps.sh &
-compton -cCGf --vsync opengl --shadow-exclude '!focused' &
-redshift & echo 1 > ~/dotfiles/scripts/redshift-status &
+compton -cCGf --vsync opengl &
+nm-applet & pa-applet & pactray &
+redshift-gtk &
 unclutter &
+/usr/lib/xfce4/notifyd/xfce4-notifyd &
 dropbox start &
 discord &
-steam
+steam &
+sleep 3 && stalonetray -t --grow-gravity E --geometry 1x1+1845-0 --icon-gravity E -s 32 -i 24 --kludges force_icons_size &

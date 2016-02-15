@@ -4,7 +4,7 @@ function linear() {
 }
 
 function binary() {
-  echo "($X * 2) / (2  *($T -1))" | bc
+  echo "($X * 2) / (2  *($T -1)) + 32" | bc
 }
 
 function pitch() {
@@ -28,12 +28,12 @@ bspc control --subscribe | while read line; do
       bspc config --desktop focused right_padding $P
       bspc config --desktop focused left_padding $P
     fi
-    bspc config --desktop focused window_gap 56
+    bspc config --desktop focused window_gap 80
   else
     bspc config --desktop focused right_padding 0
     bspc config --desktop focused left_padding 0
     G=$(binary) # alternatively G=$(linear 10)
-    [[ $G -lt 1 ]] && G=56
+    [[ $G -lt 1 ]] && G=80
     bspc config --desktop focused window_gap $G
   fi
 done

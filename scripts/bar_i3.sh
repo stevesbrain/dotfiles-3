@@ -2,19 +2,19 @@
 
 padding="   "
 
-color_background="#00373D48"
+color_background="#66000000"
 color_foreground="#FFFFFFFF"
 color_accent="#4DB6AC"
 
-panel_height=32
-panel_font="Merriweather Sans Light:size=10"
-panel_font_bold="Merriweather Sans:size=10"
+panel_height=28
+panel_font="Roboto:size=10"
+panel_font_bold="Roboto Medium:size=10"
 panel_font_condensed="Roboto Condensed:size=10"
-panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=12"
+panel_icon_font="Material\-Design\-Iconic\-Font:style=Design-Iconic-Font:size=11"
 panel_icon_font_2="Material Design Icons:size=12"
 
 panel_fifo=/tmp/panel-fifo
-bar_parser=~/dotfiles/config/bspwm/bar_parser.sh
+bar_parser=~/dotfiles/scripts/bar_parser_i3.sh
 
 # check if panel is already running
 if [[ $(pgrep -cx lemonbar) -gt 1 ]]; then
@@ -33,15 +33,40 @@ icon() {
 # Window Title
 xprop -spy -root _NET_ACTIVE_WINDOW | sed -un 's/.*\(0x.*\)/A\1/p' > "${panel_fifo}" &
 
-# set up bspwm to not overlap the panel
-bspc config bottom_padding "$panel_height"
-
-# get bspwms status feed
-bspc control --subscribe > "$panel_fifo" &
+# Workspace infos
+while true; do
+  wm_infos=$(i3-msg -t get_workspaces)
+  workspaces=$(echo $wm_infos | jq '. | length')
+  wm_first=""
+	wm_last=""
+	last_screen="0"
+  for ((i=0; i < $workspaces; i++))
+  do
+    name=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].name')
+    focused=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].focused')
+    urgent=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].urgent')
+		output=$(echo $wm_infos | jq -r --arg i "$i" '.[$i | tonumber].output')
+    if [ "$urgent" = "true" ]; then
+      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_accent}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
+    elif [ "$focused" = "true" ]; then
+      wm_text="%{F$color_foreground}%{B$color_background}%{U$color_foreground}%{+u}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{-u}%{B-}%{F-}"
+    else
+      wm_text="%{F$color_foreground}%{B$color_background}%{A:i3-msg 'workspace ${name}':}${padding}${name}${padding}%{A}%{B-}%{F-}"
+    fi
+		if [ "$output" = "HDMI1" ]; then
+      wm_first="$wm_first$wm_text"
+	    last_screen=1
+		else
+			wm_last="$wm_last$wm_text"
+	  fi
+  done
+  echo "W%{Sl}$wm_last%{Sf}$wm_first"
+  sleep 0.1
+done > "$panel_fifo" &
 
 # Clock
 while true; do
-  datetime=$(date '+%H:%M')
+  datetime=$(date '+%a, %d. %B - %H:%M')
   echo "C%{T2}$datetime"
   sleep 1
 done > "$panel_fifo" &
@@ -70,7 +95,7 @@ while true; do
   else
     volume_icon=$(icon f5fd)
   fi
-  echo "V${padding}%{T5}$volume_icon${padding}"
+  echo "V${padding}%{T5}$volume_icon %{T3}$vol%${padding}"
   sleep 0.2
 done > "$panel_fifo" &
 
@@ -85,7 +110,7 @@ done > "$panel_fifo" &
 while true; do
   update_count=$(pacman -Qu | wc -l)
   if [ $update_count -ne 0 ]; then
-    echo "U${padding}%{T5}$(icon f482)${padding}"
+    echo "U${padding}%{T5}$(icon f482) %{T3}$update_count Updates${padding}"
   else
     echo "U"
   fi
@@ -94,13 +119,11 @@ done > "$panel_fifo" &
 
 # Network
 while true; do
-	echo "N$(cat /sys/class/net/enp3s0/statistics/rx_bytes)"
+	echo "N$(cat /sys/class/net/wlp0s29u1u5/statistics/rx_bytes)"
 	sleep 1
 done > "$panel_fifo" &
 
 "$bar_parser" < "$panel_fifo" | lemonbar \
-	-a 20 \
-	-b \
   -g x"$panel_height" \
   -F "$color_foreground" \
   -B "$color_background" \

@@ -1,2 +1,0 @@
-'atom-workspace atom-text-editor:not([mini])':
-  'ctrl-7': 'editor:toggle-line-comments'

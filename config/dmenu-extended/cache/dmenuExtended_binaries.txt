@@ -1,0 +1,100 @@
+obs
+thunar-settings
+lxappearance
+xfce4-about
+/usr/lib/geoclue2/geoclue-2.0/demos/agent
+spotify
+gtk3-widget-factory
+compton
+libreoffice --calc
+evolution --component=mail
+redshift
+dropbox
+gksu-properties
+gparted_polkit
+firefox
+atom
+vinagre -F
+xterm
+libreoffice --draw
+dconf-editor
+cutegram
+gucharmap
+gpick
+orage -p
+designer-qt4
+skype
+libreoffice --impress
+gtk3-icon-browser
+gpicview
+xfce4-panel --preferences
+vlc --started-from-file
+fontforge
+gksu -l gnome-terminal
+globaltime
+/usr/lib/Thunar/ThunarBulkRename
+/usr/lib/qt/bin/designer
+galculator
+gnome-calendar
+gcr-viewer
+dwarffortress
+exo-preferred-applications
+granite-demo
+gnome-terminal
+gtk3-demo
+chromium --profile-directory=Default --app-id=behehkmaacfijackbkoidojkfhoecefo
+gmpc
+scribus
+evince
+/usr/lib/qt/bin/assistant
+virt-manager
+exo-open --launch MailReader
+assistant-qt4
+thunar
+gimp-2.8
+feh
+/usr/lib/geoclue2/geoclue-2.0/demos/where-am-i
+libreoffice
+libreoffice --math
+exo-open --launch TerminalEmulator
+vinagre
+cmake-gui
+/usr/share/zenmap/su-to-zenmap.sh
+bssh
+redshift-gtk
+qdbusviewer-qt4
+/usr/lib/qt/bin/qdbusviewer
+pantheon-files
+libreoffice --writer
+htop;
+avahi-discover
+exo-open --launch WebBrowser
+seahorse
+simplescreenrecorder --logfile
+discord
+libreoffice --base
+uxterm
+/usr/lib/qt/bin/linguist
+zenmap
+steam
+pavucontrol
+flash-player-properties
+qv4l2
+plank
+paprefs
+zathura
+/usr/lib/gcr/gcr-prompter
+qtconfig-qt4
+mopidy
+orage
+geary
+xfce4-panel --add=launcher
+geary --hidden
+exo-open --launch FileManager
+MCEdit
+linguist-qt4
+bvnc
+pidgin
+firewall-config
+unetbootin_polkit
+evince-previewer

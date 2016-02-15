@@ -1,7 +1,7 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
 .tab-background-middle {
-  background-image: none !important;
+  background-image: none !important;:
 }
 
 #TabsToolbar, .tabbrowser-arrowscrollbox {
@@ -104,7 +104,7 @@ margin-bottom: -1px !important;}
 }
 
 #urlbar {
-    height: 24px !important;
+    height: 32px !important;
 }
 
 #nav-bar {
