@@ -98,6 +98,10 @@
   border: none !important;
 }
 
+toolbarbutton {
+  opacity: 0.8 !important;
+}
+
 #notification-popup-box {
   background: none !important;
   border: none !important;
