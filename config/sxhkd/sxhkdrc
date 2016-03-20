@@ -66,7 +66,7 @@ super + ctrl + {1-9}
 	bspc window -r 0.{1-9}
 
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10} && ~/.config/bspwm/titlebars.sh
+	bspc {desktop -f,window -d} {1-9,0} && ~/.config/bspwm/titlebars.sh
 
 ~button1
 	bspc pointer -g focus
@@ -92,11 +92,11 @@ super + shift + Return
 
 # Media
 XF86AudioRaiseVolume
- 	pactl set-sink-volume 0 +5% #increase sound volume
+ 	pactl set-sink-volume 1 +5% #increase sound volume
 XF86AudioLowerVolume
- 	pactl set-sink-volume 0 -5% #decrease sound volume
+ 	pactl set-sink-volume 1 -5% #decrease sound volume
 XF86AudioMute
- 	pactl set-sink-mute 0 toggle # mute sound
+ 	pactl set-sink-mute 1 toggle # mute sound
 
 XF86AudioPlay
  	playerctl play-pause
@@ -106,16 +106,16 @@ XF86AudioPrev
  	playerctl previous
 
 Print
-	scrot -e 'mv $f ~/screenshots'
+	scrot -e 'mv $f ~/screenshots' && notify-send "Screenshot erstellt"
 
 super + space
-	dmenu_extended_run
+	j4-dmenu-desktop --dmenu="dmenu -i -b -t -h 32 -fn 'Source Sans Pro-10' -p 'Ausführen:' -nb '#2E3237' -nf '#CBCDD2' -sb '#2E3237' -sf '#99ccff'"
 
 super + Escape
 	sleep 0.5 && xset dpms force off
 
 super + r
-	pkill -USR1 redshift
+	pkill -USR1 redshift-gtk
 
 # make sxhkd reload its configuration files:
 super + shift + Escape

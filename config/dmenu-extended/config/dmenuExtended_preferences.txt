@@ -2,7 +2,7 @@
     "alias_applications": false,
     "aliased_applications_format": "{name} ({command})",
     "exclude_items": [],
-    "filebrowser": "xdg-open",
+    "filebrowser": "nemo",
     "fileopener": "xdg-open",
     "filter_binaries": false,
     "follow_symlinks": false,
@@ -23,7 +23,7 @@
       "-h",
       "32",
       "-fn",
-      "Roboto-9",
+      "Source Sans Pro-10",
       "-p",
       "Öffnen:",
       "-nb",
@@ -33,7 +33,7 @@
       "-sb",
       "#2E3237",
       "-sf",
-      "#FB4757"
+      "#99ccff"
     ],
     "path_shellCommand": "~/.dmenuEextended_shellCommand.sh",
     "scan_hidden_folders": false,

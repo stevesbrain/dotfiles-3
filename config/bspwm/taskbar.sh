@@ -5,7 +5,7 @@ panel_height=32
 
 normalFg="CBCDD2"
 activeBg="#1C1D21"
-activeFg="#FB4757"
+activeFg="#99ccff"
 inactiveBG="#001C1D21"
 inactiveFG="#66$normalFg"
 
@@ -20,7 +20,7 @@ while true; do
   first=true
   empty=true
 
-  monitor=0
+  monitor=1
 
   line=""
 
@@ -31,10 +31,10 @@ while true; do
 
   for i in $wininfo; do
     # monitor handling
-    if [[ $i =~ ^[HV] ]]; then
+    if [[ $i =~ ^[HVD] ]]; then
       datetime=$(date '+%H:%M')
-      line="${line}%{S$monitor}%{r}$datetime  %{l}"
-      ((monitor++))
+      line="${line}%{S$monitor}%{r}$datetime   %{l}"
+      ((monitor--))
       if [[ $i =~ $(printf "\*\s*$") ]]; then
         monitoractive=true
       fi
@@ -50,7 +50,7 @@ while true; do
       else
         active=false
       fi
-      ((space++))
+      space=$(echo $i | awk '{print $1}')
       empty=true
       first=true
     fi
@@ -74,9 +74,9 @@ while true; do
       fi
       # get window name
       while IFS=" " read -r id rest; do
-        window="$(xprop -id $id | grep '^_NET_WM_NAME(UTF' | sed -e 's/_NET_WM_NAME(UTF8_STRING) = "//' -e 's/\"$//' | awk -v len=$itemLength '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')"
+        window="$(xprop -id $id | grep '^_NET_WM_NAME(UTF' | sed -e 's/\\//g' -e 's/_NET_WM_NAME(UTF8_STRING) = "//' -e 's/\"$//' | awk -v len=$itemLength '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')"
         if [ -z $window ]; then
-          window="$(xprop -id $id | grep '^WM_NAME(UTF' | sed -e 's/WM_NAME(.*) = "//' -e 's/\"$//' | awk -v len=$itemLength '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')"
+          window="$(xprop -id $id | grep '^WM_NAME(UTF' | sed -e 's/WM_NAME(.*) = "//' -e 's/\\//g' -e 's/\"$//' | awk -v len=$itemLength '{ if (length($0) > len) print substr($0, 1, len-3) "..."; else print; }')"
         fi
         padding=$(printf '%*.*s' 0 $(((itemLength - ${#window}) )) "$pad")
         line="${line}%{A:bspc window -f $id:}$padding    $window    $padding%{A}"
@@ -99,5 +99,5 @@ while true; do
     line="${line}%{F-}"
   fi
   echo $line
-  sleep 0.1
-done | lemonbar -b -f "Roboto:size=9" -g x"$panel_height" -B "$inactiveBG" -F "#$normalFg" -a "30" | zsh
+  sleep 0.3
+done | lemonbar -b -f "Source Sans Pro Semibold:size=10" -g x"$panel_height" -B "$inactiveBG" -F "#$normalFg" -a "30" | zsh

@@ -10,7 +10,7 @@ export EDITOR=nano
 alias feh='feh --scale-down --auto-zoom'
 alias t='todo.sh'
 
-alias pi='ssh pi@192.168.0.22'
+alias pi='ssh pi@192.168.0.15'
 
 autoload -Uz promptinit
 promptinit

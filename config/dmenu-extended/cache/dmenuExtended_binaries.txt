@@ -1,100 +1,202 @@
-obs
-thunar-settings
-lxappearance
-xfce4-about
-/usr/lib/geoclue2/geoclue-2.0/demos/agent
-spotify
-gtk3-widget-factory
-compton
-libreoffice --calc
-evolution --component=mail
-redshift
-dropbox
-gksu-properties
-gparted_polkit
-firefox
-atom
+gcm-viewer
 vinagre -F
-xterm
-libreoffice --draw
-dconf-editor
-cutegram
-gucharmap
-gpick
-orage -p
-designer-qt4
-skype
-libreoffice --impress
-gtk3-icon-browser
-gpicview
-xfce4-panel --preferences
-vlc --started-from-file
+exo-open --launch FileManager
+mutter
+compton --xrender-sync-fence
+gnome-control-center bluetooth
+/usr/lib/qt/bin/linguist
+exo-open --launch TerminalEmulator
+gnome-control-center power
+budgie-polkit-dialog
+tracker-preferences
+thunar-settings
+gnome-control-center wacom
+gnome-control-center datetime
+qdbusviewer-qt4
 fontforge
-gksu -l gnome-terminal
-globaltime
-/usr/lib/Thunar/ThunarBulkRename
+_BINDIR_/jconsole
+cheese
+/usr/lib/vino/vino-server
+simplescreenrecorder --logfile
+redshift
 /usr/lib/qt/bin/designer
-galculator
-gnome-calendar
-gcr-viewer
-dwarffortress
+xfce4-about
+nvidia-settings
+exo-open --launch WebBrowser
+gtk3-icon-browser
+tint2conf
+nautilus --no-default-window --force-desktop
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen rtffile
+feh
+lightdm-gtk-greeter-settings-pkexec
+gksu -l gnome-terminal
+california
+pantheon-terminal -w
+tuxguitar
+/usr/lib/gnome-user-share/gnome-user-share-webdav
+gnome-contacts
+libreoffice --impress
+mopidy
+libreoffice --calc
+gnome-disk-image-mounter
+/usr/lib/gcr/gcr-prompter
+zathura
+gnome-shell-extension-prefs
+skype
+libreoffice --base
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen txtfile
+orage -p
+wine start /unix
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen Msi.Patch
+gnome-control-center display
+unetbootin_polkit
+bluetooth-sendto
+gnome-control-center sound
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen inifile
+uxterm
+zenmap
+avahi-discover
+gnome-disks --restore-disk-image
+gimp-2.8
+gnome-control-center color
+gnome-system-log
+designer-qt4
+gnome-control-center universal-access
+/usr/lib/geoclue2/geoclue-2.0/demos/agent
+gnome-control-center search
+gcm-picker
+steam steam://rungameid/730
+qtconfig-qt4
+env __GL_THREADED_OPTIMIZATIONS=1 PCSX2
+eog
+nemo-autorun-software
+gnome-control-center printers
+evince-previewer
+gpick
+chromium
+geary --hidden
+libreoffice
+gnome-control-center network
 exo-preferred-applications
-granite-demo
-gnome-terminal
-gtk3-demo
+cmake-gui
+qv4l2
+xfce4-panel --preferences
+pidgin
+gkbd-keyboard-display
+evolution -c calendar
+firewall-config
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen hlpfile
+steam steam://rungameid/200710
+pantheon-mail
+linguist-qt4
+nautilus --new-window
 chromium --profile-directory=Default --app-id=behehkmaacfijackbkoidojkfhoecefo
-gmpc
+vlc --started-from-file
+paprefs
+dconf-editor
+seahorse
+libreoffice --math
+gnome-control-center info
+firefox
+pactray
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen pjpegfile
+htop;
+gnome-calculator
+gucharmap
+gcr-viewer
+tracker-needle
+pavucontrol
+bvnc
+totem
+/usr/share/zenmap/su-to-zenmap.sh
+epiphany
+mutter --wayland --display-server
+/usr/lib/firefox/firefox
+budgie-panel
 scribus
 evince
-/usr/lib/qt/bin/assistant
-virt-manager
-exo-open --launch MailReader
-assistant-qt4
-thunar
-gimp-2.8
-feh
-/usr/lib/geoclue2/geoclue-2.0/demos/where-am-i
-libreoffice
-libreoffice --math
-exo-open --launch TerminalEmulator
-vinagre
-cmake-gui
-/usr/share/zenmap/su-to-zenmap.sh
-bssh
-redshift-gtk
-qdbusviewer-qt4
-/usr/lib/qt/bin/qdbusviewer
-pantheon-files
-libreoffice --writer
-htop;
-avahi-discover
-exo-open --launch WebBrowser
-seahorse
-simplescreenrecorder --logfile
-discord
-libreoffice --base
-uxterm
-/usr/lib/qt/bin/linguist
-zenmap
-steam
-pavucontrol
-flash-player-properties
-qv4l2
-plank
-paprefs
-zathura
-/usr/lib/gcr/gcr-prompter
-qtconfig-qt4
-mopidy
-orage
-geary
-xfce4-panel --add=launcher
-geary --hidden
-exo-open --launch FileManager
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen InternetShortcut
+empathy
+dropbox
+budgie-wm
+tint2
+granite-demo
+gnome-control-center mouse
+gpicview
+gksu-properties
+gnome-control-center privacy
+gcm-calibrate
+gnome-control-center online-accounts
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen xmlfile
+gnome-control-center keyboard
+gtk3-demo
+gmpc
+gnome-control-center user-accounts
+nemo
 MCEdit
-linguist-qt4
-bvnc
-pidgin
-firewall-config
-unetbootin_polkit
-evince-previewer
+inkscape
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen VBSFile
+/usr/lib/Thunar/ThunarBulkRename
+gparted_polkit
+flash-player-properties
+gcm-import
+gnome-dictionary
+gnome-disks
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen htmlfile
+libreoffice --draw
+nemo -n
+redshift-gtk
+bssh
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen chm.file
+obs
+nm-connection-editor
+gnome-shell --wayland --display-server
+thunar
+gnome-control-center background
+atom
+exo-open --launch MailReader
+virt-manager
+gnome-control-center --overview
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen wrifile
+baobab
+evolution --component=mail
+gedit
+vinagre
+gnome-calendar
+/usr/lib/qt/bin/qdbusviewer
+gtk3-widget-factory
+assistant-qt4
+dwarffortress
+gnome-font-viewer
+/usr/lib/qt/bin/assistant
+pantheon-mail --hidden
+gnome-control-center sharing
+libreoffice --writer
+geary
+orage
+gnome-screenshot --interactive
+spotify
+snappy
+gnome-terminal
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen jpegfile
+yelp
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen pngfile
+nautilus-autorun-software
+gnome-system-monitor
+_BINDIR_/policytool
+/usr/lib/geoclue2/geoclue-2.0/demos/where-am-i
+cutegram
+pantheon-terminal
+galculator
+steam
+gnome-control-center notifications
+xterm
+gapplication launch org.gnome.Shell.PortalHelper
+globaltime
+gnome-control-center region
+env WINEPREFIX="/home/thilo/.wine" wine start /ProgIDOpen giffile
+lxappearance
+nm-applet
+discord
+xfce4-panel --add=launcher
+gnome-shell
